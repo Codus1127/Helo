@@ -14,7 +14,9 @@ app.use(session({
     secret: SESSION_SECRET
 }))
 
-app.post('/api/auth/register', ctrl.register)
+app.post('/auth/register', ctrl.register)
+app.post('/auth/login', ctrl.login)
+app.post('/auth/logout', ctrl.logout)
 
 
 massive(CONNECTION_STRING).then(db => {
