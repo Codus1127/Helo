@@ -1,26 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import routes from './routes'
+import Nav from './Components/Nav/Nav'
+import Auth from './Components/Auth/Auth'
+import {withRouter} from 'react-router-dom'
 
-function App() {
+function App(props) {
+  console.log(props)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     {props.location.pathname === '/' ? <Auth /> : <div> <Nav /> {routes} </div>}
+     
     </div>
   );
 }
 
-export default App;
+export default withRouter(App);
