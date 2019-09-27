@@ -31,5 +31,27 @@ module.exports = {
         req.session.destroy()
         res.sendStatus(200)
     },
+
+    getPosts: async (req, res, next) => {
+        const db = req.app.get('db')
+        const {userid} = req.session
+        const {userposts, search} = req.query
+        const result = await db.get_posts()
+        if (userposts === 'true' && search !== ''){
+            const filteredResult = result.filter(el => el.title.includes(search))
+            res.status(200).send(filteredResult)
+        } else if (userposts === 'false' && search === '') {
+            const filteredResult = result.filter(el => el.user_id !== +userid)
+            res.status(200).send(filteredResult)
+        } else if (userposts === 'false' && search !== '') {
+            const filteredResult = result.filter(el => el.user_id !== +userid)
+            const filteredSearch = filteredResult.filter(el => el.title.includes(search))
+            res.status(200).send(filteredSearch)
+        } else if (userposts === 'true' && search === '') {
+            res.status(200).send(result)
+        } else {
+            console.log('nothing hit')
+        }
+    },
 }
 
